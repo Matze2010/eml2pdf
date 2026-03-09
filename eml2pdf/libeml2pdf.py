@@ -658,8 +658,10 @@ def process_eml(eml_path: Path, output_dir: Path, page: str = 'a4',
 <hr>
 {html_content}
 """
-
-        output_path = get_output_base_path(email_header.date,
+        if output_dir.is_file():
+            output_path = output_dir
+        else:
+            output_path = get_output_base_path(email_header.date,
                                            email_header.subject,
                                            output_dir)
         generate_pdf(html_content, output_path, eml_path,

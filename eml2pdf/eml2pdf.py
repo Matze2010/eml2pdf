@@ -18,10 +18,10 @@ def get_args() -> argparse.Namespace:
         default_procs = os.cpu_count() or 1
 
     parser = argparse.ArgumentParser(description="Convert EML files to PDF")
-    parser.add_argument("input_dir", type=Path,
-                        help="Directory containing EML files")
-    parser.add_argument("output_dir", type=Path,
-                        help="Directory for PDF output")
+    parser.add_argument("input", type=Path,
+                        help="File / Directory containing EML files")
+    parser.add_argument("output", type=Path,
+                        help="File / Directory for PDF output")
     parser.add_argument("-d", "--debug_html", action="store_true",
                         help="Write intermediate html file next to pdf's")
     parser.add_argument("-n", "--number-of-procs", metavar='number', type=int,
@@ -56,7 +56,11 @@ def main():
     if args.verbose:
         logger.setLevel(logging.DEBUG)
 
-    libeml2pdf.process_all_emls(args.input_dir, args.output_dir,
+    if args.input.is_file() and args.output.is_file():
+        libeml2pdf.process_eml(args.input, args.output,
+                                     args.debug_html, args.page, args.unsafe)
+    else:
+        libeml2pdf.process_all_emls(args.input_dir, args.output_dir,
                                 args.number_of_procs, args.verbose,
                                 args.debug_html, args.page, args.unsafe)
 
