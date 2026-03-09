@@ -22,7 +22,7 @@ def get_args() -> argparse.Namespace:
                         help="File / Directory containing EML files")
     parser.add_argument("output", type=Path,
                         help="File / Directory for PDF output")
-    parser.add_argument("-d", "--debug_html", action="store_true",
+    parser.add_argument("-d", "--debug_html", action="store_true", default=False,
                         help="Write intermediate html file next to pdf's")
     parser.add_argument("-n", "--number-of-procs", metavar='number', type=int,
                         default=default_procs,
@@ -38,7 +38,7 @@ def get_args() -> argparse.Namespace:
                         help="Don't sanitize HTML from potentially unsafe "
                         "elements such as remote images, scripts, etc. This "
                         "may expose sensitive user information.")
-    parser.add_argument('-v', '--verbose', action='store_true',
+    parser.add_argument('-v', '--verbose', action='store_true', default=False,
                         help='Show a lot of verbose debugging info. Forces '
                         'number of procs to 1.')
     args = parser.parse_args()
@@ -58,7 +58,7 @@ def main():
 
     if args.input.is_file():
         libeml2pdf.process_eml(args.input, args.output,
-                                     args.debug_html, args.page, args.unsafe, True)
+                                     False, args.page, args.unsafe, True)
     else:
         libeml2pdf.process_all_emls(args.input_dir, args.output_dir,
                                 args.number_of_procs, args.verbose,
