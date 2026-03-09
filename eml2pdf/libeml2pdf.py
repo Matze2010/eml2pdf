@@ -607,7 +607,7 @@ def generate_attachment_list(attachments: list[Attachment]) -> str:
 
 
 def process_eml(eml_path: Path, output_dir: Path, page: str = 'a4',
-                debug_html: bool = False, unsafe: bool = False):
+                debug_html: bool = False, unsafe: bool = False, isFile: bool = False):
     """Process a single EML file and generate a PDF.
 
     Complete processing pipeline for converting an email message to PDF:
@@ -658,7 +658,7 @@ def process_eml(eml_path: Path, output_dir: Path, page: str = 'a4',
 <hr>
 {html_content}
 """
-        if output_dir.is_file():
+        if isFile:
             output_path = output_dir
         else:
             output_path = get_output_base_path(email_header.date,

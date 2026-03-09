@@ -56,9 +56,9 @@ def main():
     if args.verbose:
         logger.setLevel(logging.DEBUG)
 
-    if args.input.is_file() and args.output.is_file():
+    if args.input.is_file():
         libeml2pdf.process_eml(args.input, args.output,
-                                     args.debug_html, args.page, args.unsafe)
+                                     args.debug_html, args.page, args.unsafe, True)
     else:
         libeml2pdf.process_all_emls(args.input_dir, args.output_dir,
                                 args.number_of_procs, args.verbose,
